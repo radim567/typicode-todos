@@ -22,10 +22,18 @@ const addTodoToDOM = (todo) => {
 const createTodo = (e) => {
   e.preventDefault();
 
+  console.log(e.target.firstElementChild.value);
   const newTodo = {
     title: e.target.firstElementChild.value,
     completed: false,
   };
+
+  fetch(apiUrl, {
+    method: 'POST',
+    body: JSON.stringify(newTodo),
+    headers: { 'Content-type': 'application/json' },
+  }).then((res) => res.json())
+      .then((data) => addTodoToDOM(data));
 };
 
 const init = () => {
