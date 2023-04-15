@@ -7,7 +7,9 @@ const getTodos = () => {
       data.forEach((todo) => {
         const div = document.createElement('div');
           div.appendChild(document.createTextNode(todo.title));
-          document.getElementById('todo-list')
+          
+          if(todo.completed)
+        document.getElementById('todo-list').appendChild(div);
       });
     });
 };
