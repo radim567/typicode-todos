@@ -2,16 +2,35 @@ const apiUrl = 'https://jsonplaceholder.typicode.com/todos';
 
 const getTodos = () => {
   fetch(apiUrl + '?_limit=5')
-    .then((response) => response.json())
+    .then((res) => res.json())
     .then((data) => {
-      data.forEach((todo) => {
-        const div = document.createElement('div');
-          div.appendChild(document.createTextNode(todo.title));
-          
-          if(todo.completed)
-        document.getElementById('todo-list').appendChild(div);
-      });
+      data.forEach((todo) => addTodoToDOM(todo));
     });
 };
 
-getTodos();
+const addTodoToDOM = (todo) => {
+  const div = document.createElement('div');
+  div.appendChild(document.createTextNode(todo.title));
+  div.setAttribute('data-id', todo.id);
+
+  if (todo.completed) {
+    div.classList.add('done');
+  }
+  document.getElementById('todo-list').appendChild(div);
+};
+
+const createTodo = (e) => {
+  e.preventDefault();
+
+  const newTodo = {
+    title: e.target.firstElementChild.value,
+    completed: false,
+  };
+};
+
+const init = () => {
+  document.addEventListener('DOMContentLoaded', getTodos);
+  document.querySelector('#todo-form').addEventListener('submit', createTodo);
+};
+
+init();
